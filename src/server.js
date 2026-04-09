@@ -32,13 +32,16 @@ app.use((req, res, next) => {
 });
 
 // Перший маршрут
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Hello world!' });
+app.get('/notes', (req, res) => {
+  res.status(200).json({ "message": "Retrieved all notes" });
+});
+
+app.get('/notes/:noteId', (req, res) => {
+  res.status(200).json({ "message": "Retrieved note with ID: id_param"});
 });
 
 app.get('/test-error', (req, res) => {
-  // Штучна помилка для прикладу
-  throw new Error('Something went wrong');
+  throw new Error('Simulated server error');
 });
 
 app.use((req, res) => {
