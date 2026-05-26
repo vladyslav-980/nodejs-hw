@@ -4,9 +4,37 @@ import createHttpError from 'http-errors';
 import { Note } from '../models/note.js';
 
 // Отримати список усіх студентів
-export const getAllNotes = async (req, res) => {
-  const notes = await Note.find();
-  res.status(200).json(notes);
+export const getNotes = async (req, res) => {
+  const {page = 1, perPage = 10, tag, search} = req.query;
+  const skip = (page - 1) * perPage;
+
+  const filter = {};
+
+  if (tag) {
+    filter.tag = tag;
+  }
+
+  if (search) {
+    filter.$or = [
+      { title: { $regex: search, $options: 'i' } },
+      { content: { $regex: search, $options: 'i' } },
+    ];
+  }
+
+  const notesQuery = Note.find(filter);
+  const [totalItems, notes] = await Promise.all([
+    notesQuery.clone().countDocuments(),
+    notesQuery.skip(skip).limit(perPage),
+  ]);
+  const totalPages = Math.ceil(totalItems / perPage);
+
+  res.status(200).json({
+    page,
+    perPage,
+    totalItems,
+    totalPages,
+    notes,
+  });
 };
 
 // Отримати одного студента за id
