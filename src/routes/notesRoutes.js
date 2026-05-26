@@ -3,7 +3,7 @@
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
 import {
-	getNotes,
+	getAllNotes,
 	getNoteById,
   createNote,
   deleteNote,
@@ -17,7 +17,7 @@ import { createNoteSchema,
 
 const router = Router();
 
-router.get('/notes', celebrate(getAllNotesSchema), getNotes);
+router.get('/notes', celebrate(getAllNotesSchema), getAllNotes);
 router.get('/notes/:noteId', celebrate(noteIdSchema), getNoteById);
 router.delete('/notes/:noteId', celebrate(noteIdSchema), deleteNote);
 router.patch('/notes/:noteId', celebrate(updateNoteSchema), updateNote);
