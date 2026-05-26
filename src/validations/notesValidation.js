@@ -13,7 +13,7 @@ export const updateNoteSchema = {
     noteId: Joi.string().custom(objectIdValidator).required(),
   }),
   [Segments.BODY]: Joi.object({
-    title: Joi.string().min(1).max(30),
+    title: Joi.string().min(1),
     content: Joi.string().allow('').optional(),
     tag: Joi.string().valid(...TAGS).optional(),
   }).min(1),
@@ -24,7 +24,7 @@ export const getAllNotesSchema = {
     page: Joi.number().integer().min(1).default(1),
     perPage: Joi.number().integer().min(5).max(20).default(10),
     tag: Joi.string().valid(...TAGS).optional(),
-    search: Joi.string().max(65).optional(),
+    search: Joi.string().max(65).allow('').optional(),
   }),
 };
 
@@ -39,7 +39,6 @@ export const createNoteSchema = {
     title: Joi.string().min(1).required().messages({
       "string.base": "Title must be a string",
       "string.min": "Title should have at least {#limit} characters",
-      "string.max": "Title should have at most {#limit} characters",
       "any.required": "Title is required",
     }),
     content: Joi.string().allow('').optional(),
