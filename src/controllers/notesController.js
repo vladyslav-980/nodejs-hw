@@ -21,7 +21,7 @@ export const getAllNotes = async (req, res) => {
     ];
   }
 
-  const notesQuery = Note.find({ userId: req.user._id });
+  const notesQuery = Note.find({ userId: req.user._id, ...filter, });
   const [totalNotes, notes] = await Promise.all([
     notesQuery.clone().countDocuments(),
     notesQuery.skip(skip).limit(perPage),
