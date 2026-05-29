@@ -10,5 +10,5 @@ router.post('/auth/login', celebrate(loginUserSchema), loginUser);
 router.post('/auth/logout', logoutUser);
 router.post('/auth/refresh', refreshUserSession);
 router.post('/auth/request-reset-email', celebrate(requestResetEmailSchema), requestResetEmail);
-router.post('/auth/request-reset-password', celebrate(resetPasswordSchema), resetPassword);
+router.post('/auth/reset-password', celebrate(resetPasswordSchema), resetPassword);
 export default router;
